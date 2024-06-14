@@ -13,6 +13,7 @@
         <module>generate_data</module>
         <module>offline_spark</module>
         <module>realtime_flink</module>
+        <module>hdfs_api</module>
     </modules>
 
     <properties>

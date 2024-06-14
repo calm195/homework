@@ -30,7 +30,7 @@ object CalcRegionUserStay2 {
       .getOrCreate()
 
     //加载基站信令数据-HDFS
-    val laccellSignFilePath = "hdfs://bigdata01:9000/xdr/20280709/19"
+    val laccellSignFilePath = "hdfs://bigdata01:9000/data/data.txt"
     val laccellSignSchema = new StructType()
       .add("imsi",StringType,false)
       .add("laccell",StringType,false)
@@ -47,7 +47,7 @@ object CalcRegionUserStay2 {
 
 
     //加载行政区-基站关系数据-HDFS
-    val regionCellFilePath = "hdfs://bigdata01:9000/data/regionCell"
+    val regionCellFilePath = "hdfs://bigdata01:9000/data/region_cell.log"
     val regionCellSchema = new StructType()
       .add("region_id",StringType,false)
       .add("laccell",StringType,false)
