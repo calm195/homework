@@ -3,11 +3,12 @@ package core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -17,11 +18,12 @@ import java.util.Random;
  */
 public class GenerateLaccellSignData {
     private static Logger logger = LoggerFactory.getLogger(GenerateLaccellSignData.class);
+
     public static List<String> getDataFromFile(String filePath) throws IOException {
         ArrayList<String> arr = new ArrayList<String>();
 
 
-        try(BufferedReader br1 = new BufferedReader(new InputStreamReader(GenerateLaccellSignData.class.getClassLoader().getResourceAsStream(filePath)))){
+        try (BufferedReader br1 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(GenerateLaccellSignData.class.getClassLoader().getResourceAsStream(filePath))))) {
             String line1;
             while ((line1 = br1.readLine()) != null) {
                 String[] splits = line1.split("\\|");
@@ -33,25 +35,12 @@ public class GenerateLaccellSignData {
         return arr;
 
     }
-    public static void writeDataToFile(String[] data) throws IOException{
-        String filePath = "data/cellac/";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHH");
-        filePath = filePath + simpleDateFormat.format(new Date(System.currentTimeMillis()));
-        File file = new File(filePath);
-        file.mkdirs();
-        filePath = filePath + "/data.txt";
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))){
-            for (String line: data){
-                bufferedWriter.write(line);
-                bufferedWriter.write('\n');
-            }
-        }
-    }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         //读取用户基础数据中的imsi
 
         String fileName1 = "user_info/user_info.log";
-        List<String> arr1 =getDataFromFile(fileName1);
+        List<String> arr1 = getDataFromFile(fileName1);
 //        InputStream in1 = GenerateLaccellSignData.class.getClassLoader().getResourceAsStream(fileName1);
 //        BufferedReader br1 = new BufferedReader(new InputStreamReader(in1));
 //        String line1;
@@ -63,46 +52,36 @@ public class GenerateLaccellSignData {
         //读取行政区-基站关系数据中的laccell
 
         String fileName2 = "region_cell/region_cell.log";
-        List<String> arr2 =getDataFromFile(fileName2);
+        List<String> arr2 = getDataFromFile(fileName2);
 
-        String[] data = new String[3600];
         Random r = new Random();
-        int circle = 0;
-        int times = 0;
-        while (circle < 3){
-            while (times < 3600) {
-                //随机获取imsi
-                String r_imsi = arr1.get(r.nextInt(arr1.size()));
-                //随机获取laccell
-                String laccell = arr2.get(r.nextInt(arr2.size()));
+        while (true) {
+            //随机获取imsi
+            String r_imsi = arr1.get(r.nextInt(arr1.size()));
+            //随机获取laccell
+            String laccell = arr2.get(r.nextInt(arr2.size()));
 
-                //随机获取基站纬度
-                double latitide = r.nextDouble() + r.nextInt(100);
-                String latitide_str = new String(latitide + "").substring(0, 10);
-                //随机获取基站经度
-                double longitude = r.nextDouble() + r.nextInt(100);
-                String longitude_str = new String(longitude + "").substring(0, 10);
+            //随机获取基站纬度
+            double latitide = r.nextDouble() + r.nextInt(100);
+            String latitide_str = new String(latitide + "").substring(0, 10);
+            //随机获取基站经度
+            double longitude = r.nextDouble() + r.nextInt(100);
+            String longitude_str = new String(longitude + "").substring(0, 10);
 
-                //获取当前时间戳
-                long currTime = System.currentTimeMillis();
+            //获取当前时间戳
+            long currTime = System.currentTimeMillis();
 
-                //组装数据
-                String line = r_imsi + "|" + laccell + "|" + latitide_str + "|" + longitude_str + "|" + currTime;
-                data[times] = line;
+            //组装数据
+            String line = r_imsi + "|" + laccell + "|" + latitide_str + "|" + longitude_str + "|" + currTime;
 
-                //记录实时产生的基站信令数据
-                logger.info(line);
+            //记录实时产生的基站信令数据
+            logger.info(line);
 
-//            int sleeptime = 1000;//默认每隔1秒产生一条数据
-//            if(args.length==1){
-//                sleeptime = Integer.parseInt(args[0]);
-//            }
-//            Thread.sleep(sleeptime);
-                times++;
+            int sleeptime = 1000;//默认每隔1秒产生一条数据
+            if (args.length == 1) {
+                sleeptime = Integer.parseInt(args[0]);
             }
-            circle ++;
-            writeDataToFile(data);
-            times = 0;
+            Thread.sleep(sleeptime);
         }
     }
 }

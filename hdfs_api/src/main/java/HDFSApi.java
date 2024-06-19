@@ -37,7 +37,7 @@ public class HDFSApi {
     @Test
     public void uploadTest() throws IOException {
         // 需要操作的两个路径，本地源文件的路径和HDFS的路径
-        Path src = new Path("D:\\Projects\\bigdata\\homework\\hdfs_api\\src\\main\\resources\\data\\user_info\\user_info.log");
+        Path src = new Path("D:\\Projects\\bigdata\\homework\\hdfs_api\\src\\main\\resources\\data\\region_cell\\region_cell.log");
 
         Path dst = new Path("/data");
         // 直接调用方法上传文件即可

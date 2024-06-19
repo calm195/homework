@@ -5,6 +5,9 @@
     <file url="file://$PROJECT_DIR$/data_server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/generate_data/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/generate_data/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hbaseProcess/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hbaseProcess/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hbaseProcess/src/main/scala" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hdfs_api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hdfs_api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/offline_spark/src/main/java" charset="UTF-8" />
